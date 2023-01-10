@@ -15,6 +15,7 @@ const Home = () => {
     if (data) {
       setTarea(data.tareas);
     }
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const Home = () => {
       JSON.stringify({ ...data, tareas: tareas })
     );
     setTarea("");
+    // eslint-disable-next-line
   }, [tareas]);
 
   const handleSubmit = (e) => {
