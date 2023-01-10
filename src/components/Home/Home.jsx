@@ -21,18 +21,18 @@ const Home = () => {
   useEffect(() => {
     localStorage.setItem(
       data.email,
-      JSON.stringify({ ...data, tareas: tareas })
+      JSON.stringify({ ...data, tareas: tareas }) //cada vez que se modifique la variable de tarea se guardara en el localstorage
     );
     setTarea("");
     // eslint-disable-next-line
   }, [tareas]);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setTareas([...tareas, { tarea: tarea, completado: false }]);
-    setTarea("");
+    e.preventDefault(); //previene que se actualice la pagina
+    setTareas([...tareas, { tarea: tarea, completado: false }]); //se copian las tareas anteriores y se crea una nueva
+    setTarea(""); //limpia el input
   };
-  const completarTarea = (nombreTarea) => {
+  const completarTarea = (nombreTarea) => {//funcion para el checkbox de completar tarea
     setTareas(
       tareas.map((tr) =>
         tr.tarea === nombreTarea ? { ...tr, completado: !tr.completado } : tr
@@ -44,7 +44,9 @@ const Home = () => {
   };
   return (
     <Container>
-      <h1 className="mx-5, mt-5">Bienvenido </h1>
+      <h1 className="mx-5, mt-5">
+        Bienvenido {data.firstName} {data.lastName}{" "}
+      </h1>
       <Form className="mt-5" onSubmit={handleSubmit}>
         <Form.Group className="mx-5, mt-5" controlId="nuevaTarea">
           <Form.Control
@@ -60,7 +62,7 @@ const Home = () => {
 
         <Container className="mt-5">
           <div className="list-group">
-            {tareas.map((tr) => {
+            {tareas.map((tr) => {//bucle para mostrar la lista de tareas
               return (
                 <Tarea
                   key={tr.tarea}

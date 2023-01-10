@@ -6,9 +6,9 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../sdk firebase";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";//para redireccionar
 
-export const authContext = createContext();
+export const authContext = createContext();//pasar datos entre componentes sin utilizar las props
 
 export const useAuth = () => {
   const context = useContext(authContext);
@@ -21,15 +21,15 @@ export function AuthProvider({ children }) {
   const [cargando, setCargando] = useState(true);
 
   const registrarse = (email, password) => {
-    createUserWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const iniciar_sesion = (email, password) => {
-    signInWithEmailAndPassword(auth, email, password);
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
   const cerrar_sesion = () => {
-    signOut(auth);
+    return signOut(auth);
   };
 
   useEffect(() => {

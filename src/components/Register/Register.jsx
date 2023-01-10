@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useAuth } from "../../context/auth";
 
@@ -33,7 +33,9 @@ const Register = () => {
       }
     }
   };
+  useEffect(()=>{
 
+  }, [messageError])
   return (
     <>
       <Container>
