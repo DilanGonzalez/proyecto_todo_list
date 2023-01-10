@@ -3,8 +3,8 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 
-const Header = ({usuario}) => {
-  const { cerrar_sesion  } = useAuth();
+const Header = () => {
+  const { cerrar_sesion, usuario } = useAuth();
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">

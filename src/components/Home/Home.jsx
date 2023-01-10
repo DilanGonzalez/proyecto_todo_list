@@ -1,27 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { useAuth } from "../../context/auth";
 import Tarea from "../Tarea/Tarea";
 
 const Home = () => {
   const { usuario } = useAuth();
-  console.log(usuario)
-  const [tarea, setTarea] = useState("");
-  //const datos = JSON.parse(localStorage.getItem(null));
-  const [tareas, setTareas] = useState( []);
 
-  /*useEffect(() => {
-    if (datos.tareas) {
-      setTareas(datos.tareas);
+  const data = JSON.parse(localStorage.getItem(usuario.email));
+
+  const [tareas, setTareas] = useState(data.tareas || []);
+  const [tarea, setTarea] = useState("");
+
+  useEffect(() => {
+    if (data) {
+      setTarea(data.tareas);
     }
-  },[datos]);*/
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      data.email,
+      JSON.stringify({ ...data, tareas: tareas })
+    );
+    setTarea("");
+  }, [tareas]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setTareas([...tareas, { tarea: tarea, completado: false }]);
     setTarea("");
   };
-
+  const completarTarea = (nombreTarea) => {
+    setTareas(
+      tareas.map((tr) =>
+        tr.tarea === nombreTarea ? { ...tr, completado: !tr.completado } : tr
+      )
+    );
+  };
+  const borrarTarea = (nombreTarea) => {
+    setTareas(tareas.filter((tr) => tr.tarea !== nombreTarea));
+  };
   return (
     <Container>
       <h1 className="mx-5, mt-5">Bienvenido </h1>
@@ -40,7 +58,18 @@ const Home = () => {
 
         <Container className="mt-5">
           <div className="list-group">
-           
+            {tareas.map((tr) => {
+              return (
+                <Tarea
+                  key={tr.tarea}
+                  setTareas={setTareas}
+                  tareas={tareas}
+                  datos={tr}
+                  completarTarea={completarTarea}
+                  borrarTarea={borrarTarea}
+                />
+              );
+            })}
           </div>
         </Container>
       </Form>

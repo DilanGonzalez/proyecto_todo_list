@@ -20,11 +20,16 @@ const Register = () => {
 
     try {
       await registrarse(userData.email, userData.Password);
+      localStorage.setItem(userData.email, JSON.stringify(userData));
     } catch (err) {
       if (err.code === "auth/weak-password") {
         setMessageError("La contraseña tiene que tener minimo 6 caracteres");
+      } else if (err.code === "auth/email-already-in-use") {
+        setMessageError("El correo ya exite");
       } else if (err.code === "auth/invalid-email") {
         setMessageError("Correo invalido");
+      } else {
+        setMessageError(err.message);
       }
     }
   };

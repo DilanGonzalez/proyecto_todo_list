@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Alert, Button, Container, Form } from "react-bootstrap";
 
 import { useAuth } from "../../context/auth";
 
@@ -9,16 +9,21 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [messageError, setMessageError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(usuario);
+    setMessageError("");
 
     try {
       await iniciar_sesion(usuario.email, usuario.password);
     } catch (err) {
       if (err.code === "auth/user-not-found") {
-        alert("correo o contraseña incorrectos");
+        setMessageError("correo o contraseña incorrectos");
+      } else if (err.code === "auth/wrong-password") {
+        setMessageError("la contraseña es incorrecta");
+      } else {
+        setMessageError(err.message);
       }
     }
   };
@@ -49,6 +54,15 @@ const Login = () => {
           Iniciar Sesion
         </Button>
       </Form>
+      {messageError === "" ? ( // =>condicion
+        //=> if
+        ""
+      ) : (
+        //=> else
+        <Alert variant={"danger"} className="text-center mt-5">
+          {messageError}
+        </Alert>
+      )}
     </Container>
   );
 };
